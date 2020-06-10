@@ -1,17 +1,55 @@
 <template>
-  <div class="home">
-    Hello world!
+  <div class="feed">
+    <article class="post" v-for="post in feed" :key="post.id">
+      <header class="user-title">{{ post.display_name }}</header>
+      <section class="post-picture">
+        <img :src="post.image" :alt="post.desc" class="post-image" />
+      </section>
+      <footer class="post-description">
+        <p>
+          <strong>{{ post.display_name}}</strong>
+          {{post.desc }}
+        </p>
+        <p class="timestamp">{{ timestampToDate(post.timestamp)}}</p>
+      </footer>
+    </article>
+
     <button @click="logout">Log Out</button>
   </div>
 </template>
 
 <script>
 export default {
+  computed: {
+    feed() {
+      return this.$store.state.feed;
+    }
+  },
   methods: {
     logout() {
-      localStorage.removeItem('jwt');
-      this.$router.push('/login');
+      this.$store.commit("logout");
     },
-  },
+    timestampToDate(timestamp) {
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ];
+      let d = new Date(timestamp);
+      // let year = d.getFullYear();
+      let month = months[d.getMonth()];
+      let day = d.getDate();
+      return `${month} ${day}`;
+    }
+  }
 };
 </script>
