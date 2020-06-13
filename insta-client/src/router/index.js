@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import axios from 'axios';
 import store from '../store';
 import Home from '../views/Home.vue';
+import Post from '../views/Post.vue';
+import Profile from '../views/Profile.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 
@@ -25,9 +28,25 @@ const routes = [
     },
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/',
     name: 'Home',
     component: Home,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/newpost',
+    name: 'Post',
+    component: Post,
     meta: {
       requiresAuth: true,
     },
@@ -42,6 +61,15 @@ const router = new VueRouter({
 
 router.onReady(() => {
   store.commit('isAuthenticated');
+
+  axios
+    .get(store.state.api_url + 'post/getposts')
+    .then((response) => {
+      store.commit('getFeed', response.data);
+    })
+    .catch((err) => {
+      if (err) throw err;
+    });
 });
 
 // Prevent access to home unless logged in

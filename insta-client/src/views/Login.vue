@@ -1,14 +1,17 @@
 <template>
   <div class="login-page">
     <header>
-      <h3 class="title">
-        INSTA
-        <span>CLONE</span>
-      </h3>
+      <!-- prettier-ignore -->
+      <h3 class="title">INSTA<span>CLONE</span></h3>
       <h4>Log In</h4>
     </header>
     <main class="form-group">
-      <input type="text" v-model="email" placeholder="Email" :class="emailError ? 'err' : ''" />
+      <input
+        type="text"
+        v-model="email"
+        placeholder="Email"
+        :class="emailError ? 'err' : ''"
+      />
       <input
         type="password"
         v-model="password"
@@ -29,32 +32,32 @@
 
 <script>
 export default {
-  name: "login",
+  name: 'login',
   data() {
     return {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       hasErrors: false,
       emailError: false,
       passError: false,
-      error: ""
+      error: '',
     };
   },
   methods: {
     login() {
       let api_url = this.$store.state.api_url; //From store/index.js
-      if (this.email == "" || this.password == "")
+      if (this.email == '' || this.password == '')
         // If field is blank alert
-        return alert("Please fill in all fields");
+        return alert('Please fill in all fields');
       this.$http
-        .post(api_url + "user/login", {
-          //Post to host/user/login with emal/pass data
+        .post(api_url + 'user/login', {
+          //Post to host/user/login with email/pass data
           email: this.email,
-          password: this.password
+          password: this.password,
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.auth) {
-            this.$store.commit("login", response.data.token);
+            this.$store.commit('login', response.data.token);
           } else {
             if (response.data.emailError) {
               this.emailError = true;
@@ -70,10 +73,10 @@ export default {
             this.hasErrors = true;
           }
         })
-        .catch(err => {
-          console.error("Error: ", err);
+        .catch((err) => {
+          console.error('Error: ', err);
         });
-    }
-  }
+    },
+  },
 };
 </script>

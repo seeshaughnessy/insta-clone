@@ -1,20 +1,18 @@
 <template>
-  <div class="feed">
+  <div class="view feed">
     <article class="post" v-for="post in feed" :key="post.id">
-      <header class="user-title">{{ post.display_name }}</header>
+      <header class="post-user">{{ post.display_name }}</header>
       <section class="post-picture">
         <img :src="post.image" :alt="post.desc" class="post-image" />
       </section>
-      <footer class="post-description">
+      <footer class="post-desc">
         <p>
-          <strong>{{ post.display_name}}</strong>
-          {{post.desc }}
+          <strong>{{ post.display_name }}</strong>
+          {{ post.desc }}
         </p>
-        <p class="timestamp">{{ timestampToDate(post.timestamp)}}</p>
+        <p class="timestamp">{{ timestampToDate(post.timestamp) }}</p>
       </footer>
     </article>
-
-    <button @click="logout">Log Out</button>
   </div>
 </template>
 
@@ -30,6 +28,7 @@ export default {
       this.$store.commit("logout");
     },
     timestampToDate(timestamp) {
+      timestamp = new Number(timestamp);
       const months = [
         "January",
         "February",

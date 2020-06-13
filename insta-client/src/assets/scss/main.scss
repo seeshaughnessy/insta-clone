@@ -10,12 +10,17 @@ body {
   min-height: 100vh;
 }
 
+.view {
+  padding: 40px 0;
+}
+
 // Pages
 @import './pages/login.scss';
 @import './pages/register.scss';
 @import './pages/feed.scss';
+@import './pages/post.scss';
+@import './pages/profile.scss';
 
 // Compontents
 @import './components/Header.scss';
 @import './components/Footer.scss';
-@import './components/Post.scss';

@@ -1,16 +1,19 @@
 <template>
   <div class="register-page">
     <header>
-      <h3 class="title">
-        INSTA
-        <span>CLONE</span>
-      </h3>
+      <!-- prettier-ignore -->
+      <h3 class="title">INSTA<span>CLONE</span></h3>
       <h4>Register</h4>
     </header>
     <main class="form-group">
       <input type="text" v-model="first_name" placeholder="First Name" />
       <input type="text" v-model="last_name" placeholder="Last Name" />
-      <input type="text" v-model="email" placeholder="Email" :class="hasErrors ? 'err' : ''" />
+      <input
+        type="text"
+        v-model="email"
+        placeholder="Email"
+        :class="hasErrors ? 'err' : ''"
+      />
       <input type="password" v-model="password" placeholder="Password" />
       <button class="login-btn" @click="register">Register</button>
       <div class="error_msg" v-if="hasErrors">{{ error }}</div>
@@ -26,50 +29,50 @@
 
 <script>
 export default {
-  name: "register",
+  name: 'register',
   data() {
     return {
-      first_name: "",
-      last_name: "",
-      email: "",
-      password: "",
+      first_name: '',
+      last_name: '',
+      email: '',
+      password: '',
       hasErrors: false,
-      error: ""
+      error: '',
     };
   },
   methods: {
     register() {
       let api_url = this.$store.state.api_url; //From store/index.js
       if (
-        this.first_name == "" ||
-        this.last_name == "" ||
-        this.email == "" ||
-        this.password == ""
+        this.first_name == '' ||
+        this.last_name == '' ||
+        this.email == '' ||
+        this.password == ''
       ) {
-        return alert("Please fill in all fields");
+        return alert('Please fill in all fields');
       }
       this.$http
-        .post(api_url + "user/register", {
+        .post(api_url + 'user/register', {
           //Post to host/user/login with emal/pass data
           first_name: this.first_name,
           last_name: this.last_name,
           email: this.email,
-          password: this.password
+          password: this.password,
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.auth) {
-            localStorage.setItem("jwt", response.data.token); //Set token for 24hour session
-            this.$router.push("/"); //Redirect to homepage
+            localStorage.setItem('jwt', response.data.token); //Set token for 24hour session
+            this.$router.push('/'); //Redirect to homepage
           } else {
             this.error = response.data.msg;
             this.hasErrors = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.error = err;
           this.hasErrors = true;
         });
-    }
-  }
+    },
+  },
 };
 </script>
