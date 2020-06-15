@@ -2,6 +2,7 @@ const model = require('./model');
 const postModel = require('../post/model');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
+const { findById, update } = require('./model');
 
 module.exports = {
   login: (req, res) => {
@@ -47,6 +48,7 @@ module.exports = {
       last_name: req.body.last_name,
       password: req.body.password,
       email: req.body.email,
+      profile_image: req.body.profile_image,
     });
 
     newUser
@@ -70,7 +72,13 @@ module.exports = {
       });
   },
   getProfile: (req, res) => {
-    let user_id = jwt.decode(req.body.auth_token).id;
+    let user_id;
+    if (req.body.user_id) {
+      user_id = req.body.user_id;
+    } else {
+      user_id = jwt.decode(req.body.auth_token).id;
+    }
+    console.log(user_id);
 
     model.findById(user_id).then((user) => {
       if (!user) {
@@ -82,10 +90,24 @@ module.exports = {
           success: true,
           details: {
             display_name: user.first_name + ' ' + user.last_name,
+            profile_image: user.profile_image,
             posts: posts,
           },
         });
       });
     });
+  },
+  updateProfile: async (req, res) => {
+    let user_id = jwt.decode(req.body.auth_token).id;
+    let updatedImage = { profile_image: req.body.profile_image };
+
+    let userQuery = { _id: user_id };
+    let postQuery = { user_id: user_id };
+
+    await model.findOneAndUpdate(userQuery, updatedImage);
+    const updatePosts = await postModel.updateMany(postQuery, updatedImage);
+
+    console.log(updatePosts.nModified);
+    res.send('Updated Successfully');
   },
 };

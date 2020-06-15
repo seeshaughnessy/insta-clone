@@ -1,7 +1,12 @@
 <template>
   <div class="view feed">
     <article class="post" v-for="post in feed" :key="post.id">
-      <header class="post-user">{{ post.display_name }}</header>
+      <header class="post-user">
+        <router-link :to="'/profile/' + post.user_id">
+          <img :src="post.profile_image" alt="Profile Thumbnail" class="profile-thumb" />
+        </router-link>
+        {{ post.display_name }}
+      </header>
       <section class="post-picture">
         <img :src="post.image" :alt="post.desc" class="post-image" />
       </section>
@@ -18,6 +23,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      api_url: this.$store.state.api_url
+    };
+  },
   computed: {
     feed() {
       return this.$store.state.feed;

@@ -5,11 +5,11 @@
         <img class="profile-image" :src="profile_image" alt />
         <strong>{{ display_name }}</strong>
       </div>
-      <div class="edit-profile">
+      <!-- <div class="edit-profile">
         <input type="text" v-model="profile_image" placeholder="Image Url" v-if="visible" />
         <button @click="saveInfo" v-if="visible">Save Profile</button>
         <button @click="toggleVisible" v-if="!visible">Edit Profile</button>
-      </div>
+      </div>-->
     </section>
     <section class="posts">
       <div class="post" v-for="post in posts" :key="post._id">
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "profile",
+  name: "userProfile",
   data() {
     return {
       profile_image: "",
@@ -32,9 +32,10 @@ export default {
   },
   methods: {
     getProfile() {
+      console.log(this.$route.params.id);
       this.$http
         .post(this.$store.state.api_url + "user/getprofile", {
-          auth_token: localStorage.getItem("jwt")
+          user_id: this.$route.params.id
         })
         .then(({ data }) => {
           this.profile_image = data.details.profile_image;

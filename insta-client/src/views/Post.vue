@@ -70,6 +70,7 @@ export default {
           this.captured = false;
           this.cap = "";
           this.desc = "";
+          this.$router.push("/"); //Redirect to homepage
         })
         .catch(err => {
           console.log(err);

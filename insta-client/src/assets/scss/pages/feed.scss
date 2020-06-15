@@ -6,11 +6,18 @@
     .post-user {
       display: flex;
       align-items: center;
-      padding: 15px;
+      padding: 10px;
 
-      text-transform: uppercase;
       font-weight: 700px;
       font-size: 18px;
+
+      .profile-thumb {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 1px solid #aaa;
+        margin-right: 10px;
+      }
     }
 
     .post-picture {

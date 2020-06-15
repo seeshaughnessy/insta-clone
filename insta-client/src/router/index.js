@@ -5,6 +5,8 @@ import store from '../store';
 import Home from '../views/Home.vue';
 import Post from '../views/Post.vue';
 import Profile from '../views/Profile.vue';
+import UserProfile from '../views/UserProfile.vue';
+
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 
@@ -28,9 +30,17 @@ const routes = [
     },
   },
   {
-    path: '/profile',
-    name: 'profile',
+    path: '/profile/',
+    name: 'Profile',
     component: Profile,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/:id',
+    name: 'userProfile',
+    component: UserProfile,
     meta: {
       requiresAuth: true,
     },

@@ -1,6 +1,7 @@
 const postModel = require('./model');
 const jwt = require('jsonwebtoken');
 const userModel = require('../user/model');
+const { post } = require('../user');
 
 module.exports = {
   newpost: (req, res) => {
@@ -13,6 +14,7 @@ module.exports = {
       }
       let newpost = new postModel({
         user_id: user_id,
+        profile_image: result.profile_image,
         display_name: `${result.first_name} ${result.last_name}`,
         image: req.body.image,
         desc: req.body.desc,
@@ -33,9 +35,6 @@ module.exports = {
     postModel
       .find()
       .then((result) => {
-        // result = result.sort(function (a, b) {
-        //   return b.timestamp - a.timestamp;
-        // });
         res.send(result.slice().reverse());
       })
       .catch((err) => {
